@@ -54,7 +54,7 @@
 
     # Initial intrinsics calibration
     initial_intrinsic_calibration:
-      board_type: "chessboard"
+      board_type: "chessboard"  # Options: "chessboard", "apriltag", "charuco"
       tangent_distortion: true
       radial_distortion_coeffs: 2
       debug: true
@@ -69,6 +69,13 @@
       # Chessboard parameters
       board_cols: 8
       board_rows: 6
+      # ChArUco parameters
+      charuco:
+        squares_x: 8  # Number of squares in X direction
+        squares_y: 6  # Number of squares in Y direction
+        square_length: 0.04  # Size of chessboard squares in meters
+        marker_length: 0.03  # Size of ArUco markers in meters
+        dictionary: "DICT_4X4_50"  # ArUco dictionary type
 
     # Apriltag detector configuration
     apriltag:

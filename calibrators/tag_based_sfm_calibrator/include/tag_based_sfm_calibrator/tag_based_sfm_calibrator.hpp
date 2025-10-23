@@ -308,6 +308,13 @@ protected:
   int initial_intrinsic_calibration_board_cols_;
   int initial_intrinsic_calibration_board_rows_;
 
+  // Intrinsics calibration : charuco
+  int initial_intrinsic_calibration_charuco_squares_x_;
+  int initial_intrinsic_calibration_charuco_squares_y_;
+  double initial_intrinsic_calibration_charuco_square_length_;
+  double initial_intrinsic_calibration_charuco_marker_length_;
+  std::string initial_intrinsic_calibration_charuco_dictionary_name_;
+
   // Optimization parameters
   bool ba_optimize_intrinsics_;
   bool ba_share_intrinsics_;
