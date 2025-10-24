@@ -1,27 +1,64 @@
 /**:
   ros__parameters:
+
+    # Tag configuration
+    lidartag_to_apriltag_scale: 0.75
+    write_debug_images: true
+
+    waypoint_tag:
+      family: "tag16h5"
+      rows: 1
+      cols: 1
+      size: 0.6
+      spacing: 0.2
+      ids: [-1]
+
+    ground_tag:
+      family: "tag36h11"
+      rows: 1
+      cols: 1
+      size: 0.22
+      spacing: 0.2
+      ids: [-1]
+
+    wheel_tag:
+      family: "tag36h11"
+      rows: 2
+      cols: 2
+      size: 0.166
+      spacing: 0.2
+      ids: [-1]
+
+
+    auxiliar_tag:
+      family: "tag36h11"
+      rows: 1
+      cols: 1
+      size: 0.22
+      spacing: 0.2
+      ids: [-1]
+
+    # Optimization configuration
+    ba:
+      optimize_intrinsics: true
+      share_intrinsics: true
+      force_shared_ground_plane: true
+      virtual_lidar_f: 10000.0
+
+      calibration_camera_optimization_weight: 0.2
+      calibration_lidar_optimization_weight: 0.2
+      external_camera_optimization_weight: 0.6
+
+      fixed_ground_plane_model: false
+
+
     # Initial intrinsics calibration configuration for ChArUco board
     initial_intrinsic_calibration:
       board_type: "charuco"  # Use ChArUco board for calibration
       tangent_distortion: true
       radial_distortion_coeffs: 2
       debug: true
-
-      # ChArUco board parameters
-      charuco:
-        squares_x: 9  # Number of squares in X direction (width)
-        squares_y: 7  # Number of squares in Y direction (height)
-        square_length: 0.035  # Size of chessboard squares in meters (35mm)
-        marker_length: 0.025  # Size of ArUco markers in meters (25mm)
-        dictionary: "DICT_4X4_50"  # ArUco dictionary type
-        # Available dictionaries:
-        # - DICT_4X4_50, DICT_4X4_100, DICT_4X4_250, DICT_4X4_1000
-        # - DICT_5X5_50, DICT_5X5_100, DICT_5X5_250, DICT_5X5_1000
-        # - DICT_6X6_50, DICT_6X6_100, DICT_6X6_250, DICT_6X6_1000
-        # - DICT_7X7_50, DICT_7X7_100, DICT_7X7_250, DICT_7X7_1000
-        # - DICT_ARUCO_ORIGINAL
-
-      # The following are used for apriltag or chessboard types (not used for charuco)
+      # Apriltag parameters
       tag:
         family: "tag16h5"
         rows: 1
@@ -29,5 +66,32 @@
         size: 0.6
         spacing: 0.2
         ids: [0, 1, 2, 3, 4, 5]
+      # Chessboard parameters
       board_cols: 8
       board_rows: 6
+      # ChArUco board parameters
+      charuco:
+        squares_x: 11  # Number of squares in X direction (width)
+        squares_y: 8  # Number of squares in Y direction (height)
+        square_length: 0.1  # Size of chessboard squares in meters (100mm)
+        marker_length: 0.07  # Size of ArUco markers in meters (70mm)
+        dictionary: "DICT_5X5_100"  # ArUco dictionary type
+        # Available dictionaries:
+        # - DICT_4X4_50, DICT_4X4_100, DICT_4X4_250, DICT_4X4_1000
+        # - DICT_5X5_50, DICT_5X5_100, DICT_5X5_250, DICT_5X5_1000
+        # - DICT_6X6_50, DICT_6X6_100, DICT_6X6_250, DICT_6X6_1000
+        # - DICT_7X7_50, DICT_7X7_100, DICT_7X7_250, DICT_7X7_1000
+        # - DICT_ARUCO_ORIGINAL
+
+    # Apriltag detector configuration
+    apriltag:
+      max_hamming: 0
+      min_margin: 50.0
+      max_out_of_plane_angle: 90.0
+      max_reprojection_error: 10.0
+      max_homography_error: 0.5
+      quad_decimate: 1.0
+      quad_sigma: 0.0
+      nthreads: 12 # cSpell:ignore nthreads
+      debug: false
+      refine_edges: true
