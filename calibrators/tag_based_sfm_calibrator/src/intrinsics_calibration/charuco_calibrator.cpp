@@ -46,18 +46,13 @@ CharucoBasedCalibrator::CharucoBasedCalibrator(
   // Create dictionary
   dictionary_ = createDictionary(dictionary_name);
 
-  // Create ChArUco board
-  board_ = cv::makePtr<cv::aruco::CharucoBoard>(
-    cv::Size(squares_x_, squares_y_), static_cast<float>(square_length_),
+  // Create ChArUco board (using older API)
+  board_ = cv::aruco::CharucoBoard::create(
+    squares_x_, squares_y_, static_cast<float>(square_length_),
     static_cast<float>(marker_length_), dictionary_);
 
-  // Create detector
-  cv::aruco::DetectorParameters detector_params = cv::aruco::DetectorParameters();
-  cv::aruco::CharucoParameters charuco_params;
-  cv::aruco::RefineParameters refine_params;
-
-  detector_ = cv::makePtr<cv::aruco::CharucoDetector>(
-    *board_, charuco_params, detector_params, refine_params);
+  // Create detector parameters
+  detector_params_ = cv::aruco::DetectorParameters::create();
 }
 
 cv::Ptr<cv::aruco::Dictionary> CharucoBasedCalibrator::createDictionary(
@@ -65,45 +60,45 @@ cv::Ptr<cv::aruco::Dictionary> CharucoBasedCalibrator::createDictionary(
 {
   // Map string names to OpenCV ArUco dictionary enums
   if (dictionary_name == "DICT_4X4_50") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
   } else if (dictionary_name == "DICT_4X4_100") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_100));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_100);
   } else if (dictionary_name == "DICT_4X4_250") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_250);
   } else if (dictionary_name == "DICT_4X4_1000") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_1000));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_1000);
   } else if (dictionary_name == "DICT_5X5_50") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_50));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_50);
   } else if (dictionary_name == "DICT_5X5_100") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_100));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_100);
   } else if (dictionary_name == "DICT_5X5_250") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_250));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_250);
   } else if (dictionary_name == "DICT_5X5_1000") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_1000));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_5X5_1000);
   } else if (dictionary_name == "DICT_6X6_50") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_50));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_50);
   } else if (dictionary_name == "DICT_6X6_100") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_100));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_100);
   } else if (dictionary_name == "DICT_6X6_250") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
   } else if (dictionary_name == "DICT_6X6_1000") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_1000));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_1000);
   } else if (dictionary_name == "DICT_7X7_50") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_50));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_50);
   } else if (dictionary_name == "DICT_7X7_100") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_100));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_100);
   } else if (dictionary_name == "DICT_7X7_250") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_250));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_250);
   } else if (dictionary_name == "DICT_7X7_1000") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_1000));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_7X7_1000);
   } else if (dictionary_name == "DICT_ARUCO_ORIGINAL") {
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_ARUCO_ORIGINAL));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_ARUCO_ORIGINAL);
   } else {
     // Default to DICT_4X4_50
     RCLCPP_WARN(
       rclcpp::get_logger("charuco_calibrator"),
       "Unknown dictionary name: %s, using DICT_4X4_50 as default", dictionary_name.c_str());
-    return cv::makePtr<cv::aruco::Dictionary>(cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50));
+    return cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
   }
 }
 
@@ -124,11 +119,20 @@ void CharucoBasedCalibrator::extractCalibrationPoints()
       rclcpp::get_logger("charuco_calibrator"), "Processing image %lu: %s (size: %dx%d)", i,
       calibration_image_file_names_[i].c_str(), grayscale_img.cols, grayscale_img.rows);
 
-    // Detect ChArUco corners
-    std::vector<int> charuco_ids;
-    std::vector<cv::Point2f> charuco_corners;
+    // First detect ArUco markers
+    std::vector<int> marker_ids;
+    std::vector<std::vector<cv::Point2f>> marker_corners;
+    cv::aruco::detectMarkers(grayscale_img, dictionary_, marker_corners, marker_ids, detector_params_);
 
-    detector_->detectBoard(grayscale_img, charuco_corners, charuco_ids);
+    // Then interpolate ChArUco corners
+    std::vector<cv::Point2f> charuco_corners;
+    std::vector<int> charuco_ids;
+
+    if (marker_ids.size() > 0) {
+      cv::aruco::interpolateCornersCharuco(
+        marker_corners, marker_ids, grayscale_img, board_,
+        charuco_corners, charuco_ids);
+    }
 
     // Check if enough corners were detected (at least 4 for calibration)
     if (charuco_corners.size() >= 4) {
@@ -144,7 +148,7 @@ void CharucoBasedCalibrator::extractCalibrationPoints()
       // Convert to 3D object points and 2D image points for calibration
       std::vector<cv::Point3f> obj_points;
       for (size_t j = 0; j < charuco_ids.size(); ++j) {
-        cv::Point3f pt = board_->getChessboardCorners()[charuco_ids[j]];
+        cv::Point3f pt = board_->chessboardCorners[charuco_ids[j]];
         obj_points.push_back(pt);
       }
 
