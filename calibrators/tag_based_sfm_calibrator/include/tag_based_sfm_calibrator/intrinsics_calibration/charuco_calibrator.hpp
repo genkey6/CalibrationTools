@@ -52,7 +52,7 @@ private:
   double marker_length_;
   cv::Ptr<cv::aruco::Dictionary> dictionary_;
   cv::Ptr<cv::aruco::CharucoBoard> board_;
-  cv::Ptr<cv::aruco::CharucoDetector> detector_;
+  cv::Ptr<cv::aruco::DetectorParameters> detector_params_;
 };
 
 }  // namespace tag_based_sfm_calibrator
