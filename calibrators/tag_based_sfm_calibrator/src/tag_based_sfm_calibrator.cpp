@@ -22,6 +22,7 @@
 #include <opencv2/imgproc.hpp>
 #include <tag_based_sfm_calibrator/calibration_scene_extractor.hpp>
 #include <tag_based_sfm_calibrator/intrinsics_calibration/apriltag_calibrator.hpp>
+#include <tag_based_sfm_calibrator/intrinsics_calibration/charuco_calibrator.hpp>
 #include <tag_based_sfm_calibrator/intrinsics_calibration/chessboard_calibrator.hpp>
 #include <tag_based_sfm_calibrator/intrinsics_calibration/intrinsics_calibrator.hpp>
 #include <tag_based_sfm_calibrator/math.hpp>
@@ -238,6 +239,18 @@ ExtrinsicTagBasedBaseCalibrator::ExtrinsicTagBasedBaseCalibrator(
     this->declare_parameter<int>("initial_intrinsic_calibration.board_cols");
   initial_intrinsic_calibration_board_rows_ =
     this->declare_parameter<int>("initial_intrinsic_calibration.board_rows");
+
+  // ChArUco parameters
+  initial_intrinsic_calibration_charuco_squares_x_ =
+    this->declare_parameter<int>("initial_intrinsic_calibration.charuco.squares_x", 8);
+  initial_intrinsic_calibration_charuco_squares_y_ =
+    this->declare_parameter<int>("initial_intrinsic_calibration.charuco.squares_y", 6);
+  initial_intrinsic_calibration_charuco_square_length_ =
+    this->declare_parameter<double>("initial_intrinsic_calibration.charuco.square_length", 0.04);
+  initial_intrinsic_calibration_charuco_marker_length_ =
+    this->declare_parameter<double>("initial_intrinsic_calibration.charuco.marker_length", 0.03);
+  initial_intrinsic_calibration_charuco_dictionary_name_ =
+    this->declare_parameter<std::string>("initial_intrinsic_calibration.charuco.dictionary", "DICT_4X4_50");
 
   apriltag_detector_parameters_.max_hamming = this->declare_parameter<int>("apriltag.max_hamming");
   apriltag_detector_parameters_.min_margin = this->declare_parameter<double>("apriltag.min_margin");
@@ -1165,6 +1178,21 @@ bool ExtrinsicTagBasedBaseCalibrator::calibrateExternalIntrinsicsCallback(
       initial_intrinsic_calibration_board_rows_, initial_intrinsic_calibration_board_cols_,
       initial_intrinsic_calibration_tangent_distortion_,
       initial_intrinsic_calibration_radial_distortion_coeffs_, true));
+  } else if (initial_intrinsic_calibration_board_type_ == "charuco") {
+    external_camera_intrinsics_calibrator = IntrinsicsCalibrator::Ptr(new CharucoBasedCalibrator(
+      initial_intrinsic_calibration_charuco_squares_x_,
+      initial_intrinsic_calibration_charuco_squares_y_,
+      initial_intrinsic_calibration_charuco_square_length_,
+      initial_intrinsic_calibration_charuco_marker_length_,
+      initial_intrinsic_calibration_charuco_dictionary_name_,
+      initial_intrinsic_calibration_tangent_distortion_,
+      initial_intrinsic_calibration_radial_distortion_coeffs_, true));
+  } else {
+    RCLCPP_ERROR(
+      this->get_logger(), "Unknown intrinsic calibration board type: %s",
+      initial_intrinsic_calibration_board_type_.c_str());
+    response->success = false;
+    return false;
   }
 
   external_camera_intrinsics_calibrator->setCalibrationImageFiles(request->files.files);

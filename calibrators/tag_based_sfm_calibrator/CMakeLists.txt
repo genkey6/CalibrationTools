@@ -27,6 +27,7 @@ ament_auto_add_executable(tag_based_sfm_calibrator
   src/ceres/calibration_problem.cpp
   src/intrinsics_calibration/intrinsics_calibrator.cpp
   src/intrinsics_calibration/apriltag_calibrator.cpp
+  src/intrinsics_calibration/charuco_calibrator.cpp
   src/intrinsics_calibration/chessboard_calibrator.cpp
   src/calibration_scene_extractor.cpp
   src/tag_based_sfm_calibrator.cpp
