@@ -5,7 +5,7 @@ repositories:
     version: tier4/universe
   vendor/lidartag:
     type: git
-    url: https://github.com/tier4/LiDARTag.git
+    url: https://github.com/genkey6/LiDARTag.git
     version: humble
   vendor/lidartag_msgs:
     type: git
