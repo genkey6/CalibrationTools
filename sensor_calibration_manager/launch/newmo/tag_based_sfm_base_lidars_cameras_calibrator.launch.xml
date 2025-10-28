@@ -3,18 +3,18 @@
   <arg name="rviz" default="true"/>
 
   <!-- Parameters -->
-  <arg name="config_file" default="omiya_calibration_room_2023.param.yaml"/>
+  <arg name="config_file" default="newmo_trc_calibration_room.param.yaml"/>
   <arg name="publish_tfs" default="true"/>
   <arg name="fixed_ground_plane_model" default="false"/>
 
   <!-- Frame configuration -->
   <arg name="base_frame" default="base_link"/>
-  <arg name="main_calibration_sensor_frame" default="pandar_top"/>
+  <arg name="main_calibration_sensor_frame" default="robosense_top"/>
 
-  <arg name="calibration_lidar_0_frame" default="pandar_top"/>
-  <arg name="calibration_lidar_1_frame" default="pandar_front"/>
-  <arg name="calibration_lidar_2_frame" default="pandar_left"/>
-  <arg name="calibration_lidar_3_frame" default="pandar_right"/>
+  <arg name="calibration_lidar_0_frame" default="robosense_top"/>
+  <arg name="calibration_lidar_1_frame" default="robosense_front"/>
+  <arg name="calibration_lidar_2_frame" default="robosense_left"/>
+  <arg name="calibration_lidar_3_frame" default="robosense_right"/>
 
   <arg name="calibration_camera_0_frame" default="camera0/camera_optical_link"/>
   <arg name="calibration_camera_1_frame" default="camera1/camera_optical_link"/>
@@ -25,10 +25,10 @@
   <arg name="calibration_camera_6_frame" default="camera6/camera_optical_link"/>
 
   <!-- Lidar configuration -->
-  <arg name="calibration_lidar_0_model" default="pandar64"/>
-  <arg name="calibration_lidar_1_model" default="at128"/>
-  <arg name="calibration_lidar_2_model" default="pandar_xt32"/>
-  <arg name="calibration_lidar_3_model" default="pandar_xt32"/>
+  <arg name="calibration_lidar_0_model" default="robosense_m1_plus"/>
+  <arg name="calibration_lidar_1_model" default="robosense_m1_plus"/>
+  <arg name="calibration_lidar_2_model" default="robosense_m1_plus"/>
+  <arg name="calibration_lidar_3_model" default="robosense_m1_plus"/>
 
   <!-- Topic configuration -->
   <arg name="calibration_lidar_0_topic" default="/sensing/lidar/top/pointcloud_raw"/>
