@@ -9,12 +9,12 @@
 
   <!-- Frame configuration -->
   <arg name="base_frame" default="base_link"/>
-  <arg name="main_calibration_sensor_frame" default="robosense_top"/>
+  <arg name="main_calibration_sensor_frame" default="robosense_rear"/>
 
-  <arg name="calibration_lidar_0_frame" default="robosense_top"/>
-  <arg name="calibration_lidar_1_frame" default="robosense_front"/>
+  <arg name="calibration_lidar_0_frame" default="robosense_rear"/>
+  <arg name="calibration_lidar_1_frame" default="robosense_right"/>
   <arg name="calibration_lidar_2_frame" default="robosense_left"/>
-  <arg name="calibration_lidar_3_frame" default="robosense_right"/>
+  <arg name="calibration_lidar_3_frame" default="robosense_front"/>
 
   <arg name="calibration_camera_0_frame" default="camera0/camera_optical_link"/>
   <arg name="calibration_camera_1_frame" default="camera1/camera_optical_link"/>
@@ -31,10 +31,10 @@
   <arg name="calibration_lidar_3_model" default="robosense_m1_plus"/>
 
   <!-- Topic configuration -->
-  <arg name="calibration_lidar_0_topic" default="/sensing/lidar/top/pointcloud_raw"/>
-  <arg name="calibration_lidar_1_topic" default="/sensing/lidar/front/pointcloud_raw"/>
+  <arg name="calibration_lidar_0_topic" default="/sensing/lidar/rear/pointcloud_raw"/>
+  <arg name="calibration_lidar_1_topic" default="/sensing/lidar/right/pointcloud_raw"/>
   <arg name="calibration_lidar_2_topic" default="/sensing/lidar/left/pointcloud_raw"/>
-  <arg name="calibration_lidar_3_topic" default="/sensing/lidar/right/pointcloud_raw"/>
+  <arg name="calibration_lidar_3_topic" default="/sensing/lidar/front/pointcloud_raw"/>
 
   <arg name="calibration_camera_info_0_topic" default="/sensing/camera/camera0/camera_info"/>
   <arg name="calibration_camera_info_1_topic" default="/sensing/camera/camera1/camera_info"/>
@@ -54,15 +54,15 @@
 
   <arg
     name="auxiliar_tag_ids"
-    default="[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49]"
+    default="[101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120]"
   />
-  <arg name="waypoint_tag_ids" default="[0, 1, 2, 3, 4, 5]"/>
+  <arg name="waypoint_tag_ids" default="[301, 302, 303]"/>
   <arg
     name="ground_tag_ids"
-    default="[50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99]"
+    default="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]"
   />
-  <arg name="left_wheel_tag_id" default="22"/>
-  <arg name="right_wheel_tag_id" default="26"/>
+  <arg name="left_wheel_tag_id" default="201"/>
+  <arg name="right_wheel_tag_id" default="205"/>
 
   <!-- tag_based_sfm_base_lidar calibrator -->
   <include file="$(find-pkg-share tag_based_sfm_calibrator)/launch/calibrator.launch.xml">
