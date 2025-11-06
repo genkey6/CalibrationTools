@@ -1,7 +1,7 @@
 repositories:
   autoware/calibration_tools:
     type: git
-    url: https://github.com/tier4/CalibrationTools.git
+    url: https://github.com/genkey6/CalibrationTools.git
     version: tier4/universe
   vendor/lidartag:
     type: git
