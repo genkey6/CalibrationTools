@@ -9,12 +9,12 @@
 
   <!-- Frame configuration -->
   <arg name="base_frame" default="base_link"/>
-  <arg name="main_calibration_sensor_frame" default="robosense_rear"/>
+  <arg name="main_calibration_sensor_frame" default="rslidar_rear"/>
 
-  <arg name="calibration_lidar_0_frame" default="robosense_rear"/>
-  <arg name="calibration_lidar_1_frame" default="robosense_right"/>
-  <arg name="calibration_lidar_2_frame" default="robosense_left"/>
-  <arg name="calibration_lidar_3_frame" default="robosense_front"/>
+  <arg name="calibration_lidar_0_frame" default="rslidar_rear"/>
+  <arg name="calibration_lidar_1_frame" default="rslidar_right"/>
+  <arg name="calibration_lidar_2_frame" default="rslidar_left"/>
+  <arg name="calibration_lidar_3_frame" default="rslidar_front"/>
 
   <arg name="calibration_camera_0_frame" default="camera0/camera_optical_link"/>
   <arg name="calibration_camera_1_frame" default="camera1/camera_optical_link"/>
