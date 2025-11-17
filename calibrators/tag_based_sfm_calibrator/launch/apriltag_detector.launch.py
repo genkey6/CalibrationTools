@@ -68,6 +68,23 @@ def launch_setup(context, *args, **kwargs):
         executable="component_container",
         composable_node_descriptions=nodes,
         output="screen",
+        arguments=[
+            '--ros-args',
+            '--log-level', 'camera0.apriltag_16h5:=error',
+            '--log-level', 'camera0.apriltag_36h11:=error',
+            '--log-level', 'camera1.apriltag_16h5:=error',
+            '--log-level', 'camera1.apriltag_36h11:=error',
+            '--log-level', 'camera2.apriltag_16h5:=error',
+            '--log-level', 'camera2.apriltag_36h11:=error',
+            '--log-level', 'camera3.apriltag_16h5:=error',
+            '--log-level', 'camera3.apriltag_36h11:=error',
+            '--log-level', 'camera4.apriltag_16h5:=error',
+            '--log-level', 'camera4.apriltag_36h11:=error',
+            '--log-level', 'camera5.apriltag_16h5:=error',
+            '--log-level', 'camera5.apriltag_36h11:=error',
+            '--log-level', 'camera6.apriltag_16h5:=error',
+            '--log-level', 'camera6.apriltag_36h11:=error',
+        ]
     )
 
     return [container]
