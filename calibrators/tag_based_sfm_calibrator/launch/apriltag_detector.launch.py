@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import itertools
+
 import launch
 from launch.actions import DeclareLaunchArgument
 from launch.actions import OpaqueFunction
@@ -38,6 +40,12 @@ def launch_setup(context, *args, **kwargs):
     families = yaml.safe_load(LaunchConfiguration("families").perform(context))
 
     nodes = []
+
+    log_level_arguments = [
+        arg
+        for camera_index, family in itertools.product(range(7), families)
+        for arg in ("--log-level", f"camera{camera_index}.apriltag_{family}:=error")
+    ]
 
     for family in families:
         param_dict = {"family": family, **common_param_dict}
@@ -68,23 +76,7 @@ def launch_setup(context, *args, **kwargs):
         executable="component_container",
         composable_node_descriptions=nodes,
         output="screen",
-        arguments=[
-            '--ros-args',
-            '--log-level', 'camera0.apriltag_16h5:=error',
-            '--log-level', 'camera0.apriltag_36h11:=error',
-            '--log-level', 'camera1.apriltag_16h5:=error',
-            '--log-level', 'camera1.apriltag_36h11:=error',
-            '--log-level', 'camera2.apriltag_16h5:=error',
-            '--log-level', 'camera2.apriltag_36h11:=error',
-            '--log-level', 'camera3.apriltag_16h5:=error',
-            '--log-level', 'camera3.apriltag_36h11:=error',
-            '--log-level', 'camera4.apriltag_16h5:=error',
-            '--log-level', 'camera4.apriltag_36h11:=error',
-            '--log-level', 'camera5.apriltag_16h5:=error',
-            '--log-level', 'camera5.apriltag_36h11:=error',
-            '--log-level', 'camera6.apriltag_16h5:=error',
-            '--log-level', 'camera6.apriltag_36h11:=error',
-        ]
+        arguments=["--ros-args", *log_level_arguments],
     )
 
     return [container]
