@@ -9,7 +9,7 @@
       family: "tag16h5"
       rows: 1
       cols: 1
-      size: 0.8
+      size: 0.64
       spacing: 0.2
       ids: [-1]
 
@@ -17,7 +17,7 @@
       family: "tag36h11"
       rows: 1
       cols: 1
-      size: 0.25
+      size: 0.23
       spacing: 0.2
       ids: [-1]
 
@@ -25,7 +25,7 @@
       family: "tag36h11"
       rows: 2
       cols: 2
-      size: 0.15
+      size: 0.12
       spacing: 0.04
       ids: [-1]
 
@@ -33,7 +33,7 @@
       family: "tag36h11"
       rows: 1
       cols: 1
-      size: 0.398
+      size: 0.23
       spacing: 0.2
       ids: [-1]
 
