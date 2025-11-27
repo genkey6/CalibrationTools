@@ -72,7 +72,7 @@
         squares_x: 9  # Number of squares in X direction (width)
         squares_y: 6  # Number of squares in Y direction (height)
         square_length: 0.1  # Size of chessboard squares in meters (100mm)
-        marker_length: 0.07  # Size of ArUco markers in meters (70mm)
+        marker_length: 0.08  # Size of ArUco markers in meters (80mm)
         dictionary: "DICT_5X5_100"  # ArUco dictionary type
         # Available dictionaries:
         # - DICT_4X4_50, DICT_4X4_100, DICT_4X4_250, DICT_4X4_1000
