@@ -39,8 +39,8 @@
 
     # Optimization configuration
     ba:
-      optimize_intrinsics: true
-      share_intrinsics: true
+      optimize_intrinsics: false
+      share_intrinsics: false
       force_shared_ground_plane: true
       virtual_lidar_f: 10000.0
 
@@ -84,9 +84,9 @@
     # Apriltag detector configuration
     apriltag:
       max_hamming: 0
-      min_margin: 50.0
+      min_margin: 100.0
       max_out_of_plane_angle: 90.0
-      max_reprojection_error: 10.0
+      max_reprojection_error: 30.0
       max_homography_error: 0.5
       quad_decimate: 1.0
       quad_sigma: 0.0
