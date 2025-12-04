@@ -134,8 +134,10 @@ void CharucoBasedCalibrator::extractCalibrationPoints()
         charuco_corners, charuco_ids);
     }
 
-    // Check if enough corners were detected (at least 4 for calibration)
-    if (charuco_corners.size() >= 4) {
+    // Need at least 6 points for OpenCV's DLT pose estimation inside calibrateCamera
+    constexpr std::size_t min_charuco_corners = 6;
+
+    if (charuco_corners.size() >= min_charuco_corners) {
       RCLCPP_INFO(
         rclcpp::get_logger("charuco_calibrator"),
         "Found %lu ChArUco corners in image %lu", charuco_corners.size(), i);
@@ -157,8 +159,8 @@ void CharucoBasedCalibrator::extractCalibrationPoints()
     } else {
       RCLCPP_WARN(
         rclcpp::get_logger("charuco_calibrator"),
-        "Insufficient ChArUco corners detected (%lu) in image %lu, skipping",
-        charuco_corners.size(), i);
+        "Insufficient ChArUco corners detected (%lu < %zu) in image %lu, skipping",
+        charuco_corners.size(), min_charuco_corners, i);
     }
   }
 
