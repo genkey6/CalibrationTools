@@ -1196,7 +1196,11 @@ bool ExtrinsicTagBasedBaseCalibrator::calibrateExternalIntrinsicsCallback(
   }
 
   external_camera_intrinsics_calibrator->setCalibrationImageFiles(request->files.files);
-  external_camera_intrinsics_calibrator->calibrate(external_camera_intrinsics_);
+  if (!external_camera_intrinsics_calibrator->calibrate(external_camera_intrinsics_)) {
+    RCLCPP_ERROR(this->get_logger(), "External camera intrinsics calibration failed");
+    response->success = false;
+    return false;
+  }
   calibration_problem_.setExternalCameraIntrinsics(external_camera_intrinsics_);
 
   RCLCPP_INFO_STREAM(this->get_logger(), "k = " << external_camera_intrinsics_.camera_matrix);

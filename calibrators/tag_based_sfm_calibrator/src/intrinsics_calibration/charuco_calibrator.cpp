@@ -20,7 +20,6 @@
 #include <tag_based_sfm_calibrator/intrinsics_calibration/charuco_calibrator.hpp>
 
 #include <algorithm>
-#include <limits>
 #include <string>
 #include <unordered_map>
 #include <vector>

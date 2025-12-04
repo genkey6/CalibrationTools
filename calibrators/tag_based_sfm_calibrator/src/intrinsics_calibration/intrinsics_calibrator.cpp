@@ -39,8 +39,36 @@ bool IntrinsicsCalibrator::calibrate(IntrinsicParameters & intrinsics)
     rclcpp::get_logger("intrinsics_calibrator"), "Calibration images: %lu",
     calibration_image_file_names_.size());
 
+  if (calibration_image_file_names_.empty()) {
+    RCLCPP_ERROR(rclcpp::get_logger("intrinsics_calibrator"), "No calibration images provided");
+    return false;
+  }
+
   // Extract calibration points from the images
   extractCalibrationPoints();
+
+  if (image_points_.empty() || object_points_.empty()) {
+    RCLCPP_ERROR(
+      rclcpp::get_logger("intrinsics_calibrator"),
+      "No valid detections found for calibration (object_points: %lu, image_points: %lu)",
+      object_points_.size(), image_points_.size());
+    return false;
+  }
+
+  if (image_points_.size() != object_points_.size()) {
+    RCLCPP_ERROR(
+      rclcpp::get_logger("intrinsics_calibrator"),
+      "Mismatch between object_points (%lu) and image_points (%lu)", object_points_.size(),
+      image_points_.size());
+    return false;
+  }
+
+  if (size_.width <= 0 || size_.height <= 0) {
+    RCLCPP_ERROR(
+      rclcpp::get_logger("intrinsics_calibrator"),
+      "Invalid image size for calibration: %dx%d", size_.width, size_.height);
+    return false;
+  }
 
   intrinsics.size = size_;
   intrinsics.camera_matrix = cv::Mat_<double>::zeros(3, 3);
