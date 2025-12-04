@@ -20,6 +20,7 @@
 #include <tag_based_sfm_calibrator/intrinsics_calibration/charuco_calibrator.hpp>
 
 #include <algorithm>
+#include <limits>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -152,6 +153,22 @@ void CharucoBasedCalibrator::extractCalibrationPoints()
       for (size_t j = 0; j < charuco_ids.size(); ++j) {
         cv::Point3f pt = board_->chessboardCorners[charuco_ids[j]];
         obj_points.push_back(pt);
+      }
+
+      // Reject degenerate configurations (e.g., all points in a single row/column)
+      std::vector<cv::Point2f> obj_points_2d;
+      obj_points_2d.reserve(obj_points.size());
+      for (const auto & pt : obj_points) {
+        obj_points_2d.emplace_back(pt.x, pt.y);
+      }
+      std::vector<cv::Point2f> hull;
+      cv::convexHull(obj_points_2d, hull, false, true);
+      constexpr double min_area = 1e-9;
+      if (hull.size() < 3 || cv::contourArea(hull) < min_area) {
+        RCLCPP_WARN(
+          rclcpp::get_logger("charuco_calibrator"),
+          "ChArUco corners are nearly collinear in image %lu, skipping", i);
+        continue;
       }
 
       object_points_.push_back(obj_points);
