@@ -10,14 +10,14 @@
     <push-ros-namespace namespace="$(var ns)"/>
 
     <node pkg="autoware_image_transport_decompressor" exec="image_transport_decompressor_node" name="decompressor" output="screen">
-      <remap from="decompressor/input/compressed_image" to="$(var image_compressed_topic)"/>
-      <remap from="decompressor/output/raw_image" to="raw_image"/>
+      <remap from="~/input/compressed_image" to="$(var image_compressed_topic)"/>
+      <remap from="~/output/raw_image" to="raw_image"/>
 
       <param name="encoding" value="default"/>
     </node>
 
     <include file="$(find-pkg-share tag_based_sfm_calibrator)/launch/apriltag_detector.launch.py">
-      <arg name="image_topic" value="raw_image"/>
+      <arg name="image_topic" value="/$(var ns)/raw_image"/>
       <arg name="camera_info_topic" value="$(var camera_info_topic)"/>
       <arg name="families" value="$(var apriltag_detector_families)"/>
     </include>
