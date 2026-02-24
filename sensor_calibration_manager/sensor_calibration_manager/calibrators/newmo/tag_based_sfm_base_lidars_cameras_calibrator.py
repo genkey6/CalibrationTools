@@ -34,7 +34,6 @@ class TagBasedSfmBaseLidarsCamerasCalibrator(CalibratorBase):
         super().__init__(ros_interface)
 
         self.base_frame = kwargs["base_frame"]
-        self.sensor_kit_frame = "sensor_kit_base_link"
 
         self.main_sensor_frame = kwargs["main_calibration_sensor_frame"]
         self.calibration_lidar_frames = [
@@ -63,7 +62,6 @@ class TagBasedSfmBaseLidarsCamerasCalibrator(CalibratorBase):
         self.required_frames.extend(
             [
                 self.base_frame,
-                self.sensor_kit_frame,
                 self.main_sensor_frame,
                 *self.calibration_lidar_frames,
                 *self.calibration_camera_optical_link_frames,
@@ -87,10 +85,6 @@ class TagBasedSfmBaseLidarsCamerasCalibrator(CalibratorBase):
         )
 
     def post_process(self, calibration_transforms: Dict[str, Dict[str, np.array]]):
-        sensor_kit_to_mapping_lidar_transform = self.get_transform_matrix(
-            self.sensor_kit_frame, self.main_sensor_frame
-        )
-
         optical_link_to_camera_link_transforms = [
             self.get_transform_matrix(camera_optical_link_frame, camera_link_frame)
             for camera_optical_link_frame, camera_link_frame in zip(
@@ -98,30 +92,27 @@ class TagBasedSfmBaseLidarsCamerasCalibrator(CalibratorBase):
             )
         ]
 
-        base_to_top_sensor_kit_transform = np.linalg.inv(
-            sensor_kit_to_mapping_lidar_transform
-            @ calibration_transforms[self.main_sensor_frame][self.base_frame]
+        base_to_main_sensor_transform = np.linalg.inv(
+            calibration_transforms[self.main_sensor_frame][self.base_frame]
         )
-        results = {self.base_frame: {self.sensor_kit_frame: base_to_top_sensor_kit_transform}}
-        results[self.sensor_kit_frame] = {}
 
-        results[self.sensor_kit_frame][self.main_sensor_frame] = (
-            sensor_kit_to_mapping_lidar_transform
-        )
+        results = {self.base_frame: {}}
+
+        results[self.base_frame][self.main_sensor_frame] = base_to_main_sensor_transform
 
         for lidar_frame in self.calibration_lidar_frames:
-            results[self.sensor_kit_frame][lidar_frame] = (
-                sensor_kit_to_mapping_lidar_transform
+            results[self.base_frame][lidar_frame] = (
+                base_to_main_sensor_transform
                 @ calibration_transforms[self.main_sensor_frame][lidar_frame]
             )
 
         for camera_frame, optical_link_to_camera_link_transform in zip(
             self.calibration_camera_optical_link_frames, optical_link_to_camera_link_transforms
         ):
-            results[self.sensor_kit_frame][
+            results[self.base_frame][
                 camera_frame.replace("camera_optical_link", "camera_link")
             ] = (
-                sensor_kit_to_mapping_lidar_transform
+                base_to_main_sensor_transform
                 @ calibration_transforms[self.main_sensor_frame][camera_frame]
                 @ optical_link_to_camera_link_transform
             )
